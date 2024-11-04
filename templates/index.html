@@ -237,90 +237,92 @@
         <!-- Related Topics Section -->
         <div class="related-topics">
             <h2>Related Topics</h2>
-            <a href="https://www.aad.org/public/diseases/skin-cancer/types/common " class="topic-link" target="_blank">Types of Skin Cancer</a>
-            <a href= "https://www.skincancer.org/skin-cancer-prevention/" class="topic-link" target="_blank">Skin Cancer Prevention</a>
-            <a href= "https://my.clevelandclinic.org/health/diseases/15818-skin-cancer" class="topic-link" target="_blank">Skin Cancer Symptoms</a>
+            <a href="https://www.aad.org/public/diseases/skin-cancer/types/common" class="topic-link" target="_blank">Types of Skin Cancer</a>
+            <a href="https://www.skincancer.org/skin-cancer-prevention/" class="topic-link" target="_blank">Skin Cancer Prevention</a>
+            <a href="https://my.clevelandclinic.org/health/diseases/15818-skin-cancer" class="topic-link" target="_blank">Skin Cancer Symptoms</a>
             <a href="https://www.cancer.gov/types/skin/patient/skin-treatment-pdq" class="topic-link" target="_blank">Skin Cancer Treatment</a>
         </div>
 
         <!-- Image Slider -->
         <div class="slider">
             <div class="slides" id="slides">
-                <img src="images/FeatureCancer.jpg" alt="Image 1">
-                <img src="images/melanoma.webp" alt="Image 2">
-                <img src="images/detailed_v4@2x.jpg" alt="Image 3">
-                <img src="images/download.png" alt="Image 4">
+                <img src="images/slide1.jpg" alt="Slide 1">
+                <img src="images/slide2.jpg" alt="Slide 2">
+                <img src="images/slide3.jpg" alt="Slide 3">
             </div>
-            <!-- Slider Controls -->
             <div class="slider-controls">
-                <button onclick="previousSlide()">&#10094;</button>
-                <button onclick="nextSlide()">&#10095;</button>
+                <button id="prevBtn">&#10094;</button>
+                <button id="nextBtn">&#10095;</button>
             </div>
         </div>
-    </div>
 
-    <!-- Date and Time Display -->
-    <div class="date-time" id="dateTimeDisplay"></div>
+        <!-- Date and Time -->
+        <div class="date-time" id="dateTime"></div>
+    </div>
 
     <!-- Bottom Navbar -->
     <div class="bottom-navbar">
         <a href="about.html">About BANICP</a>
-        <a href="https://www.skincancer.org/skin-cancer-information/" target="_blank">More On Skin Cancer</a>
-        <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+        <a href="more.html">More on Skin Cancer</a>
+        <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
     </div>
 
-    <!-- JavaScript for Interactivity -->
     <script>
-        // Date and Time Display
+        // Date and Time Functionality
         function updateDateTime() {
             const now = new Date();
-            document.getElementById("dateTimeDisplay").innerText = now.toLocaleString();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            document.getElementById('dateTime').innerText = now.toLocaleString('en-US', options);
         }
         setInterval(updateDateTime, 1000);
 
-        // Dynamic Statistics
+        // Statistics Update Functionality
         const statistics = [
-            "In certain regions of Africa, skin cancer represents up to 25% of all cancers.",
-            "Skin cancer is the most prevalent cancer in the United States, outnumbering breast, prostate, lung, and colon cancers combined.",
-            "Melanoma, the deadliest form of skin cancer, sees about 100,000 new cases diagnosed in the US annually.",
-            "Individuals with lighter skin tones are at increased risk of developing skin cancer, particularly in high UV exposure areas.",
-            "The incidence of skin cancer is on the rise in sub-Saharan Africa due to greater UV exposure and lifestyle changes."
+            '1 in 5 Americans will develop skin cancer by age 70.',
+            'More people are diagnosed with skin cancer each year in the U.S. than all other cancers combined.',
+            'Skin cancer is the most common cancer in the U.S.',
+            'Over 1 million cases of skin cancer are diagnosed in the U.S. each year.',
+            'An estimated 90% of nonmelanoma skin cancers are associated with exposure to ultraviolet (UV) radiation from the sun.'
         ];
 
-        let statisticIndex = 0;
-        function updateStatistics() {
-            const statisticText = document.getElementById("statisticText");
-            statisticText.style.opacity = 0; // Fade out
-            setTimeout(() => {
-                statisticText.innerText = statistics[statisticIndex];
-                statisticText.style.opacity = 1; // Fade in
-                statisticIndex = (statisticIndex + 1) % statistics.length;
-            }, 500); // Wait for fade out before changing text
-        }
-        setInterval(updateStatistics, 4000); // Change statistic every 4 seconds
-        updateStatistics(); // Initial call
+        let currentStatisticIndex = 0;
 
-        // Image Slider Logic
+        function updateStatistics() {
+            document.getElementById('statisticText').innerText = statistics[currentStatisticIndex];
+            currentStatisticIndex = (currentStatisticIndex + 1) % statistics.length;
+        }
+        setInterval(updateStatistics, 4000);
+
+        // Image Slider Functionality
         let slideIndex = 0;
         const slides = document.getElementById("slides");
-        const totalSlides = slides.children.length;
 
-        function showSlide(index) {
-            slideIndex = (index + totalSlides) % totalSlides;
-            slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+        function showSlides() {
+            if (slideIndex >= slides.children.length) { slideIndex = 0; }
+            if (slideIndex < 0) { slideIndex = slides.children.length - 1; }
+            slides.style.transform = "translateX(" + (-slideIndex * 100) + "%)";
         }
-        function nextSlide() {
-            showSlide(slideIndex + 1);
-        }
-        function previousSlide() {
-            showSlide(slideIndex - 1);
-        }
-        setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
 
-        // Theme Toggle
-        function toggleTheme() {
-            document.body.classList.toggle("dark-theme");
-        }
+        document.getElementById("nextBtn").onclick = function() {
+            slideIndex++;
+            showSlides();
+        };
+
+        document.getElementById("prevBtn").onclick = function() {
+            slideIndex--;
+            showSlides();
+        };
+
+        // Automatic slide every 3 seconds
+        setInterval(() => {
+            slideIndex++;
+            showSlides();
+        }, 3000);
+
+        // Theme Toggle Functionality
+        document.getElementById('themeToggle').onclick = function() {
+            document.body.classList.toggle('dark-theme');
+        };
     </script>
 </body>
 </html>
