@@ -3,81 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Data - BANICP Model</title>
+    <title>BANICP - Save Data</title>
     <style>
+        /* Styles */
         body {
             font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
+            color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f7f9fc;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            overflow-x: hidden;
         }
-        input, button {
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+        h1 {
+            color: #5c67f2;
+        }
+        input[type="text"] {
+            margin: 15px 0;
             padding: 10px;
-            margin: 5px;
-            width: 300px;
+            width: 90%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         button {
+            padding: 10px 15px;
             background-color: #007bff;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #0056b3;
         }
-        img {
-            margin-top: 10px;
-            max-width: 100px; /* Limit the size of the image */
-        }
     </style>
 </head>
 <body>
-    <h1>Enter Your Data</h1>
-    <input type="text" id="keyword" placeholder="Enter Keyword" />
-    <input type="text" id="firstName" placeholder="First Name" />
-    <input type="text" id="lastName" placeholder="Last Name" />
-    <input type="number" id="age" placeholder="Age" />
-    <input type="text" id="phone" placeholder="Phone" />
-    <input type="file" id="image" accept="image/*" />
-    <button onclick="saveData()">Predict</button>
+    <div class="container">
+        <h1>Save Your Data</h1>
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="age" placeholder="Age" required>
+        <input type="text" id="phone" placeholder="Phone" required>
+        <button id="saveDataBtn">Save Data</button>
+        <div id="message" style="margin-top: 15px;"></div>
+    </div>
 
     <script>
-        function saveData() {
-            const keyword = document.getElementById('keyword').value;
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const age = document.getElementById('age').value;
-            const phone = document.getElementById('phone').value;
-            const imageInput = document.getElementById('image');
-            const imageFile = imageInput.files[0];
+        document.getElementById("saveDataBtn").onclick = function() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const phone = document.getElementById("phone").value;
 
-            if (keyword && firstName && lastName && age && phone && imageFile) {
-                const reader = new FileReader();
-                reader.onloadend = function() {
-                    const data = {
-                        firstName,
-                        lastName,
-                        age,
-                        phone,
-                        image: reader.result // Save the Base64 image
-                    };
-                    localStorage.setItem(keyword, JSON.stringify(data));
-                    alert('Data saved successfully!');
-                    // Clear the inputs
-                    document.getElementById('keyword').value = '';
-                    document.getElementById('firstName').value = '';
-                    document.getElementById('lastName').value = '';
-                    document.getElementById('age').value = '';
-                    document.getElementById('phone').value = '';
-                    document.getElementById('image').value = ''; // Clear file input
-                };
-                reader.readAsDataURL(imageFile); // Convert image to Base64
+            if (name && age && phone) {
+                localStorage.setItem("name", name);
+                localStorage.setItem("age", age);
+                localStorage.setItem("phone", phone);
+                document.getElementById("message").innerText = "Data saved successfully!";
+                document.getElementById("message").style.color = "green";
             } else {
-                alert('Please fill in all fields and upload an image.');
+                document.getElementById("message").innerText = "Please fill in all fields.";
+                document.getElementById("message").style.color = "red";
             }
         }
     </script>
