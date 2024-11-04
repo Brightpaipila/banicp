@@ -3,220 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BANICP</title>
-    <style>
-        /* Base Styles */
-        * {
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding-bottom: 100px;
-            overflow-x: hidden;
-        }
-        /* Main Content Container */
-        .main-container {
-            max-width: 700px;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-        }
-        /* BANICP Description Container */
-        .bancip-container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-            margin-bottom: 30px;
-            transition: transform 0.3s;
-        }
-        .bancip-container:hover {
-            transform: scale(1.03);
-        }
-        /* Title, Description, and Button */
-        .bancip-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #5c67f2;
-            font-weight: bold;
-        }
-        .bancip-container p {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 20px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-        .get-started {
-            display: inline-block;
-            margin: 15px 0;
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 5px 15px rgba(92, 103, 242, 0.4);
-        }
-        .get-started:hover {
-            background-color: #0056b3;
-            transform: translateY(-3px);
-        }
-        /* Statistics Section */
-        .statistics {
-            background-color: #f7f9fc;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        .statistics h2 {
-            font-size: 2rem;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-        .statistics p {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 10px;
-            transition: opacity 0.5s;
-            opacity: 0;
-        }
-        /* Related Topics Section */
-        .related-topics {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        .related-topics h2 {
-            font-size: 2rem;
-            color: #5c67f2;
-            margin-bottom: 10px;
-        }
-        .topic-link {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        .topic-link:hover {
-            background-color: #0056b3;
-        }
-        /* Slider */
-        .slider {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            margin: 20px auto;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        .slides {
-            display: flex;
-            transition: transform 0.5s ease;
-            width: 100%;
-        }
-        .slides img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-        .slider-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-        }
-        .slider-controls button {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .slider-controls button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        /* Date and Time */
-        .date-time {
-            font-size: 0.9rem;
-            margin-top: 15px;
-            color: #555;
-            font-style: italic;
-        }
-        /* Bottom Navbar */
-        .bottom-navbar {
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-        }
-        .bottom-navbar a, .theme-toggle {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .bottom-navbar a:hover, .theme-toggle:hover {
-            background-color: #e0e0e5;
-        }
-        /* Theme Toggle Button */
-        .theme-toggle {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 50px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .theme-toggle:hover {
-            background-color: #0056b3;
-            transform: translateY(-3px);
-        }
-        /* Dark Theme */
-        .dark-theme {
-            background-color: #222;
-            color: #f4f4f4;
-        }
-        .dark-theme .bottom-navbar, .dark-theme .theme-toggle {
-            background-color: #444;
-            color: white;
-        }
-        .dark-theme .bottom-navbar a {
-            color: white;
-            background-color: #555;
-        }
-    </style>
+    <title>BANICP - Skin Cancer Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
     <!-- Main Content Container -->
@@ -224,8 +13,8 @@
         <!-- BANICP Description Container -->
         <div class="bancip-container">
             <h1>BANICP MODEL</h1>
-            <p>A platform that helps detect whether a lesion is <strong>malignant or benign</strong></p>
-            <a href="modelpage.html" class="get-started">Get Started</a>
+            <p>A platform that helps detect whether a lesion is <strong>malignant or benign</strong>.</p>
+            <a href="/modelpage" class="get-started">Get Started</a>
         </div>
 
         <!-- Statistics Section -->
@@ -246,9 +35,9 @@
         <!-- Image Slider -->
         <div class="slider">
             <div class="slides" id="slides">
-                <img src="images/slide1.jpg" alt="Slide 1">
-                <img src="images/slide2.jpg" alt="Slide 2">
-                <img src="images/slide3.jpg" alt="Slide 3">
+                <img src="{{ url_for('static', filename='images/slide1.jpg') }}" alt="Slide 1">
+                <img src="{{ url_for('static', filename='images/slide2.jpg') }}" alt="Slide 2">
+                <img src="{{ url_for('static', filename='images/slide3.jpg') }}" alt="Slide 3">
             </div>
             <div class="slider-controls">
                 <button id="prevBtn">&#10094;</button>
@@ -262,8 +51,8 @@
 
     <!-- Bottom Navbar -->
     <div class="bottom-navbar">
-        <a href="about.html">About BANICP</a>
-        <a href="more.html">More on Skin Cancer</a>
+        <a href="/about">About BANICP</a>
+        <a href="/history">More on Skin Cancer</a>
         <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
     </div>
 
