@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About BANICP</title>
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        /* Main Container */
+        .about-container {
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            transition: transform 0.3s;
+        }
+        .about-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+        /* Header Styling */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #5c67f2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+        /* Paragraph and List Styling */
+        p {
+            font-size: 1.1rem;
+            line-height: 1.75;
+            color: #444;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        ul {
+            padding-left: 20px;
+            color: #333;
+        }
+        li {
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+        li::marker {
+            color: #5c67f2;
+        }
+        /* Link Button Styling */
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            color: #fff;
+            background-color: #5c67f2;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 5px 15px rgba(92, 103, 242, 0.4);
+        }
+        .back-link:hover {
+            background-color: #4a53c5;
+            transform: translateY(-3px);
+        }
+        /* Accent Colors */
+        p strong, ul strong {
+            color: #5c67f2;
+        }
+    </style>
+</head>
+<body>
+    <!-- About Container -->
+    <div class="about-container">
+        <h1>About BANICP Model</h1>
+        <p>The BANICP model is a sophisticated AI-driven platform designed to assist in identifying whether a skin lesion is malignant (cancerous) or benign (non-cancerous). This tool aims to support dermatologists, healthcare professionals, and even patients in early detection and understanding of skin abnormalities.</p>
+
+        <p><strong>Key Features of BANICP:</strong></p>
+        <ul>
+            <li><strong>Image Analysis:</strong> Utilizes advanced image processing techniques to analyze lesion images and identify characteristics associated with malignancy.</li>
+            <li><strong>Machine Learning:</strong> Based on deep learning models trained on a large dataset of skin lesions, ensuring accurate and reliable results.</li>
+            <li><strong>Real-Time Results:</strong> Provides instant analysis to assist in timely medical decisions.</li>
+            <li><strong>Educational Insights:</strong> Offers insights into skin cancer types, warning signs, and preventive measures.</li>
+        </ul>
+
+        <p>The BANICP model is part of an ongoing effort to leverage technology in medical diagnostics, focusing on improving patient outcomes through early detection. This tool is continuously updated with the latest research and methodologies in skin cancer detection.</p>
+
+        <a href="index.html" class="back-link">Back to Main Page</a>
+    </div>
+</body>
+</html>

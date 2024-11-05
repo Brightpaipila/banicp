@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - BANICP Model</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 480px;
+        }
+        h1 {
+            font-size: 26px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 8px;
+            margin: 10px 0;
+            width: calc(100% - 16px);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .history-display {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .advice {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #e2e3e5;
+        }
+        .home-button {
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+        }
+        .home-button:hover {
+            background-color: #218838;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>View History</h1>
+        <input type="text" id="keyword" placeholder="Enter Keyword">
+        <div>
+            <button onclick="retrieveHistory()">Get Report</button>
+            <button onclick="clearInputs()">Clear</button>
+            <button class="home-button" onclick="location.href='index.html'">Home</button>
+        </div>
+        <div class="history-display" id="historyDisplay"></div>
+    </div>
+
+    <footer id="footer">
+        <p id="dateTime"></p>
+    </footer>
+
+    <script>
+        function retrieveHistory() {
+            const keyword = document.getElementById('keyword').value;
+            const entry = localStorage.getItem(keyword);
+            const display = document.getElementById('historyDisplay');
+
+            if (entry) {
+                const historyData = JSON.parse(entry);
+                const advice = getAdvice(historyData.label);
+
+                display.innerHTML = `
+                    <h2>Patient Report</h2>
+                    <p><strong>First Name:</strong> ${historyData.firstName}</p>
+                    <p><strong>Last Name:</strong> ${historyData.lastName}</p>
+                    <p><strong>Age:</strong> ${historyData.age}</p>
+                    <p><strong>Phone:</strong> ${historyData.phone}</p>
+                    <p><strong>Prediction:</strong> ${historyData.label}</p>
+                    <p><strong>Confidence:</strong> ${(historyData.probability * 100).toFixed(2)}%</p>
+                    <img src="${historyData.image}" alt="Uploaded Image" style="max-width: 100%; margin-top: 10px;" />
+                    <div class="advice">${advice}</div>
+                `;
+            } else {
+                display.innerHTML = "<p>No data found for the provided keyword.</p>";
+            }
+        }
+
+        function getAdvice(label) {
+            if (label.toLowerCase() === "malignant") {
+                return `
+                    <strong>Advice:</strong> It is important to consult a healthcare professional for further examination and treatment options. Early intervention is crucial.
+                `;
+            } else if (label.toLowerCase() === "benign") {
+                return `
+                    <strong>Advice:</strong> The lesion appears to be benign, but it is recommended to monitor any changes. Regular check-ups are advisable.
+                `;
+            } else {
+                return "<strong>Advice:</strong> Please seek professional medical advice to understand your situation better.";
+            }
+        }
+
+        function clearInputs() {
+            document.getElementById('keyword').value = '';
+            document.getElementById('historyDisplay').innerHTML = '';
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateTimeString = now.toLocaleString();
+            document.getElementById('dateTime').innerText = `Current Date and Time: ${dateTimeString}`;
+        }
+
+        updateDateTime();
+    </script>
+</body>
+</html>

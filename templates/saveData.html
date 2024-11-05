@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data - BANICP Model</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f9fc;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 300px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            margin-top: 10px;
+            max-width: 100px; /* Limit the size of the image */
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Your Data</h1>
+    <input type="text" id="keyword" placeholder="Enter Keyword" />
+    <input type="text" id="firstName" placeholder="First Name" />
+    <input type="text" id="lastName" placeholder="Last Name" />
+    <input type="number" id="age" placeholder="Age" />
+    <input type="text" id="phone" placeholder="Phone" />
+    <input type="file" id="image" accept="image/*" />
+    <button onclick="saveData()">Predict</button>
+
+    <script>
+        function saveData() {
+            const keyword = document.getElementById('keyword').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value;
+            const imageInput = document.getElementById('image');
+            const imageFile = imageInput.files[0];
+
+            if (keyword && firstName && lastName && age && phone && imageFile) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const data = {
+                        firstName,
+                        lastName,
+                        age,
+                        phone,
+                        image: reader.result // Save the Base64 image
+                    };
+                    localStorage.setItem(keyword, JSON.stringify(data));
+                    alert('Data saved successfully!');
+                    // Clear the inputs
+                    document.getElementById('keyword').value = '';
+                    document.getElementById('firstName').value = '';
+                    document.getElementById('lastName').value = '';
+                    document.getElementById('age').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('image').value = ''; // Clear file input
+                };
+                reader.readAsDataURL(imageFile); // Convert image to Base64
+            } else {
+                alert('Please fill in all fields and upload an image.');
+            }
+        }
+    </script>
+</body>
+</html>

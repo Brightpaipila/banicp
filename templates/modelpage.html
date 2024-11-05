@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Lesion Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            font-family: 'Verdana', sans-serif;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        input[type="file"], button, input[type="text"], input[type="number"], input[type="tel"] {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: calc(100% - 22px);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 5px;
+            font-size: 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer; 
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .nav {
+            margin-top: 20px;
+        }
+        .nav a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .nav a:hover {
+            background-color: #218838;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 400px; 
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SKIN LESION CLASSIFIER</h1>
+        <p>Upload an image or take a picture to predict if it's Benign or Malignant.</p>
+        
+        
+        <input type="file" id="fileInput" accept="image/*" capture="environment">
+
+        <button onclick="openModal()">Enter Credentials</button>
+        <button onclick="predict()">Predict</button>
+        <button onclick="clearFields()">Clear</button>
+
+        <div id="result"></div>
+
+        <div class="nav">
+            <a href="index.html">Home</a>
+            <a href="history.html">View Report</a>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Enter Your Credentials</h2>
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="number" id="age" placeholder="Age" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="keyword" placeholder="Keyword" required>
+            <button onclick="saveCredentials()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        let savedCredentials = {};
+
+        function clearFields() {
+            document.getElementById('fileInput').value = "";
+            document.getElementById('result').innerHTML = "";
+        }
+
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("myModal")) {
+                closeModal();
+            }
+        }
+
+        function saveCredentials() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value;
+            const keyword = document.getElementById('keyword').value;
+
+            savedCredentials = {
+                firstName,
+                lastName,
+                age,
+                phone,
+                keyword
+            };
+
+            closeModal();
+
+            // Clear input fields
+            document.getElementById('firstName').value = "";
+            document.getElementById('lastName').value = "";
+            document.getElementById('age').value = "";
+            document.getElementById('phone').value = "";
+            document.getElementById('keyword').value = "";
+        }
+
+        async function predict() {
+            const fileInput = document.getElementById('fileInput');
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.textContent = "";
+
+            if (fileInput.files.length === 0) {
+                resultDiv.textContent = "Please select or capture an image file.";
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/predict", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch prediction.");
+                }
+
+                const data = await response.json();
+                const label = data.label;
+                const probability = (data.probability * 100).toFixed(2);
+
+                resultDiv.innerHTML = `
+                    <p><strong>Prediction:</strong> ${label}</p>
+                    <p><strong>Confidence:</strong> ${probability}%</p>
+                `;
+
+                // Save the result along with credentials
+                const historyData = {
+                    ...savedCredentials,
+                    label,
+                    probability,
+                    image: URL.createObjectURL(file) // Save image as URL for display
+                };
+                localStorage.setItem(savedCredentials.keyword, JSON.stringify(historyData));
+
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
